@@ -1,12 +1,12 @@
 import numpy
 import subprocess
 
-num_chain=27
+num_chains=27
 num_atoms_per_mol=2000
 
-lee=numpy.zeros(num_chain)
-lpp=numpy.zeros(num_chain)
-for i in range(num_chain):
+lee=numpy.zeros(num_chains)
+lpp=numpy.zeros(num_chains)
+for i in range(num_chains):
    subprocess.Popen("tail -2 stdout."+str(i+1)+" | head -1 > temp",shell=True).wait()
    result=numpy.loadtxt('temp')
    lee[i]=result[0]**2

@@ -1,9 +1,11 @@
 num=1
-num_chain=27
-while [ $num -le $num_chain ]
+num_chains=27
+num_procs=544
+
+while [ $num -le $num_chains ]
 do
 	echo $num > chain.txt
-	ibrun -np 544 a.out > stdout.$num &&
+	ibrun -np $num_procs a.out > stdout.$num &&
 
 	num=$(($num+1))
 done
