@@ -92,7 +92,7 @@ C changable parameter: grid and rvdw
 
         do i = chain, chain, 1
            trajec=a(1+num_atoms_per_mol*(i-1):num_atoms_per_mol*i,4:6)
-           call pbc(num_atoms_per_mol,trajec,boxlength) ! coords beyond pbc
+           call pbc(trajec,num_atoms_per_mol,boxlength) ! coords beyond pbc
            call gridn(trajec,num_atoms_per_mol,griddel,grid,vol)
            numpts=grid(1)*grid(2)*grid(3)
 
@@ -352,7 +352,7 @@ C -----------------------------------------------------------
 
 C -----------------------------------------------------------
 
-        subroutine pbc(num_atoms_per_mol,xyz,boxlength)
+        subroutine pbc(xyz,num_atoms_per_mol,boxlength)
         real xyz(num_atoms_per_mol,3)
         real temp(num_atoms_per_mol,3)
         real boxlength(3,2)
