@@ -78,6 +78,7 @@ C changable parameter: grid and rvdw
            a(j,5)=x5
            a(j,6)=x6
         enddo
+        close(1)
 
         call sortrow(a,num_atoms) ! sort rows with the first column ascending
 
@@ -85,9 +86,9 @@ C changable parameter: grid and rvdw
         call MPI_Comm_Size(MPI_Comm_World,num_procs,ierr)
 
         root_process=0
-        open(1,file='chain.txt',status='old') ! read in chain number
-        read(1,*) chain
-        close(1)
+        open(2,file='chain.txt',status='old') ! read in chain number
+        read(2,*) chain
+        close(2)
 
         do i = chain, chain, 1
            trajec=a(1+num_atoms_per_mol*(i-1):num_atoms_per_mol*i,4:6)
