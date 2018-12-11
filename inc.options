@@ -1,0 +1,4 @@
+	parameter(num_atoms=54000)
+	parameter(num_atoms_per_mol=2000)
+	parameter(griddel=0.5)
+	parameter(rvdw=0.95)

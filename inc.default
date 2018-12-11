@@ -1,0 +1,2 @@
+	parameter(max_rows=10000000)
+	parameter(c_pi=3.141592)
