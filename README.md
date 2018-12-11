@@ -37,12 +37,12 @@ Ne is a statistical property, so Ne is calculated by using the contour length of
 User changes two variables, num_chains and num_atoms_per_mol corresponding to the total number of macromolecular chains and atoms in one molecule.
 
 ## Running
-'''
+```
 ./run.sh
-'''
+```
 This generates stdout's as many as the number of macromolcular chains.
 
-'''
+```
 python postprocess.py
-'''
+```
 This calculates a statistical property, Ne, by averaging over stdout's.
