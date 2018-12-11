@@ -16,10 +16,8 @@ C start         starting point in time
 C finish        finishing point in time
 
         include 'mpif.h'
-        parameter (max_rows=10000000)
-        parameter (num_atoms=54000)
-        parameter (num_atoms_per_mol=2000)
-        parameter (c_pi=3.141592)
+        include 'inc.default'
+        include 'inc.options'
 
         real a(num_atoms,6)
         real trajec(num_atoms_per_mol,3)
@@ -53,13 +51,9 @@ C for mpi
 
         call cpu_time(start)
 
-C changable parameter: grid and rvdw
-        griddel=0.5
-        rvdw=0.95
-
         call MPI_Init ( ierr )
 
-        open(1,file='dump.572000') ! read in a dump file
+        open(1,file='dump.PP') ! read in a dump file
         read(1,*) s1
         read(1,*) s2
         read(1,*) s3

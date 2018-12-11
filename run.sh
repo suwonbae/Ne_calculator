@@ -1,7 +1,10 @@
-num=1
+#!/bin/bash
+
+# change num_chains and num_procs depending on model and resource
 num_chains=27
 num_procs=544
 
+num=1
 while [ $num -le $num_chains ]
 do
 	echo $num > chain.txt

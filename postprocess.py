@@ -1,6 +1,7 @@
 import numpy
 import subprocess
 
+#change num_chains and num_atoms_per_mol depending on model
 num_chains=27
 num_atoms_per_mol=2000
 
