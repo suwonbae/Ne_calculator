@@ -9,7 +9,7 @@ A dump file corresponding a primitive path network, which is an input file to be
 
 ### run.sh
 Runs the main program (Neq_mpi.f) on every single primitive path.
-User changes two variables, num_chains and num_procs corresponding to the total number of macromolecular chain and processors.
+User changes two variables, num_chains and num_procs corresponding to the total number of macromolecular chains and processors.
 
 ### Neq_mpi.f
 The main program that generates a fine mesh (3D grid) for every single primitive path and counts the number of grid points on which primitive path falls in order to not double count some segments.
@@ -37,6 +37,11 @@ Ne is a statistical property, so Ne is calculated by using the contour length of
 User changes two variables, num_chains and num_atoms_per_mol corresponding to the total number of macromolecular chains and atoms in one molecule.
 
 ## Running
+```
+mpif90 Neq_mpi.f
+```
+This compiles the program wrttien in fortran and generates a.out.
+
 ```
 ./run.sh
 ```
