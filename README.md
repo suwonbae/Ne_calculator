@@ -54,14 +54,25 @@ This calculates a statistical property, Ne, by averaging over stdout's.
 
 ##
 @article{doi:10.1021/acs.macromol.8b01027,
-	author = {Bae, Suwon and Galant, Or and Diesendruck, Charles E. and Silberstein, Meredith N.},
-	title = {The Effect of Intrachain Cross-Linking on the Thermomechanical Behavior of Bulk Polymers Assembled Solely from Single Chain Polymer Nanoparticles},
-	journal = {Macromolecules},
-	volume = {51},
-	number = {18},
-	pages = {7160-7168},
-	year = {2018},
-	doi = {10.1021/acs.macromol.8b01027},
+	
+author = {Bae, Suwon and Galant, Or and Diesendruck, Charles E. and Silberstein, Meredith N.},
+	
+title = {The Effect of Intrachain Cross-Linking on the Thermomechanical Behavior of Bulk Polymers Assembled Solely from Single Chain Polymer Nanoparticles},
+	
+journal = {Macromolecules},
+	
+volume = {51},
+	
+number = {18},
+	
+pages = {7160-7168},
+	
+year = {2018},
 
-	URL = {https://doi.org/10.1021/acs.macromol.8b01027}
+doi = {10.1021/acs.macromol.8b01027},
+
+URL = {
+https://doi.org/10.1021/acs.macromol.8b01027
+}
+
 }
