@@ -30,7 +30,7 @@ The total number of atoms in one molecule.
 The increment to generates grid points.
 
 #### rvdw
-The probe radius describing the radius of tube confining macromolecular chain. Only grid points falling within this radius from primitive path are counted.
+The probe radius describing the radius of a tube confining a macromolecular chain. Only grid points falling within this radius from primitive path are counted.
 
 ### postprocess.py
 Ne is a statistical property, so Ne is calculated by using the contour length of all primitive paths.
@@ -54,22 +54,14 @@ This calculates a statistical property, Ne, by averaging over stdout's.
 
 ##
 @article{doi:10.1021/acs.macromol.8b01027,
-author = {Bae, Suwon and Galant, Or and Diesendruck, Charles E. and Silberstein, Meredith N.},
-title = {The Effect of Intrachain Cross-Linking on the Thermomechanical Behavior of Bulk Polymers Assembled Solely from Single Chain Polymer Nanoparticles},
-journal = {Macromolecules},
-volume = {51},
-number = {18},
-pages = {7160-7168},
-year = {2018},
-doi = {10.1021/acs.macromol.8b01027},
+	author = {Bae, Suwon and Galant, Or and Diesendruck, Charles E. and Silberstein, Meredith N.},
+	title = {The Effect of Intrachain Cross-Linking on the Thermomechanical Behavior of Bulk Polymers Assembled Solely from Single Chain Polymer Nanoparticles},
+	journal = {Macromolecules},
+	volume = {51},
+	number = {18},
+	pages = {7160-7168},
+	year = {2018},
+	doi = {10.1021/acs.macromol.8b01027},
 
-URL = { 
-        https://doi.org/10.1021/acs.macromol.8b01027
-    
-},
-eprint = { 
-        https://doi.org/10.1021/acs.macromol.8b01027
-    
-}
-
+	URL = {https://doi.org/10.1021/acs.macromol.8b01027}
 }
