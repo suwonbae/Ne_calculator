@@ -3,7 +3,7 @@ C parameter
 C coords        xyz array of all molecules
 C trajec        xyz array of one molecule
 C boxlength     lower and upper limits of the sim box
-C rvdw          probe radius used to measure the volume of a confining tube
+C rprobe          probe radius used to measure the volume of a confining tube
 C lee           end-to-end distance of a chain
 C lpp           contour length of a primitive path
 C griddel       grid size (distance between adjcent grid points)
@@ -23,7 +23,7 @@ C finish        finishing point in time
         real trajec(num_atoms_per_mol,3)
         real pts(max_rows,3)
         real boxlength(3,2)
-        real rvdw
+        real rprobe
         real lee
         real lpp
         real griddel
@@ -115,7 +115,7 @@ C for mpi
            if (my_id .eq. root_process) then
 
               total_num=0
-              partial_num=tube(trajec,num_atoms_per_mol,rvdw,num_rows,
+              partial_num=tube(trajec,num_atoms_per_mol,rprobe,num_rows,
      &        pts(1:num_rows,:))
               total_num=total_num+partial_num
 
@@ -127,11 +127,11 @@ C for mpi
 
               write (*,*) '* total num=', total_num
               lee=distcal(trajec(num_atoms_per_mol,:)-trajec(1,:))
-              lpp=float(total_num)/float(numpts)*vol/(c_pi*rvdw**2)
+              lpp=float(total_num)/float(numpts)*vol/(c_pi*rprobe**2)
               write (*,*) '* lee=', lee
               write (*,*) '* lpp=', lpp
            else
-              partial_num=tube(trajec,num_atoms_per_mol,rvdw,num_rows,
+              partial_num=tube(trajec,num_atoms_per_mol,rprobe,num_rows,
      &        pts(1:num_rows,:))
 
               call MPI_Send(partial_num,1,MPI_Int,root_process,
@@ -280,19 +280,19 @@ C i, j, k_ind's s
 C -----------------------------------------------------------
 C counts the number of grid points falling withing the confining tube
 
-        real function tube(xyz,num_atoms_per_mol,rvdw,numpts,pts)
+        real function tube(xyz,num_atoms_per_mol,rprobe,numpts,pts)
 C xyz           xyz array of a molecule
-C rvdw          probe radius to measure volume 
+C rprobe        probe radius to measure volume 
 C numpts        total number of grid points
 C pts           xyz array of all grid points
 C dist          distance between a grid point and a atom/bead
 C dx, dy, dz    increment in each axis to generate grid points
-C num           number of grid points falling within 'rvdw'
+C num           number of grid points falling within 'rprobe'
 C flag          flag for while loop
 C idx           index fo while loop
 
         real xyz(num_atoms_per_mol,3) 
-        real rvdw
+        real rprobe
         integer*8 numpts
         real pts(numpts,3)
         real dist
@@ -313,7 +313,7 @@ C idx           index fo while loop
               dy=pts(j,2)-xyz(idx,2)
               dz=pts(j,3)-xyz(idx,3)
               dist=sqrt(dx**2+dy**2+dz**2)
-              if (dist .le. rvdw) then
+              if (dist .le. rprobe) then
                   num=num+1
                   flag=1
               endif

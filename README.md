@@ -14,10 +14,10 @@ User changes two variables, num_chains and num_procs corresponding to the total 
 ### Neq_mpi.f
 The main program that generates a fine mesh (3D grid) for every single primitive path and counts the number of grid points on which primitive path falls in order to not double count some segments.
 
-### inc.default
+### var.default
 Default parameters.
 
-### inc.options
+### var.options
 Parameters that user changes.
 
 #### num_atoms
@@ -29,7 +29,7 @@ The total number of atoms in one molecule.
 #### griddel
 The increment to generates grid points.
 
-#### rvdw
+#### rprobe
 The probe radius describing the radius of a tube confining a macromolecular chain. Only grid points falling within this radius from primitive path are counted.
 
 ### postprocess.py
