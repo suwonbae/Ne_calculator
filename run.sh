@@ -11,4 +11,5 @@ do
 	ibrun -np $num_procs a.out > stdout.$num &&
 
 	num=$(($num+1))
+	rm chain.txt
 done

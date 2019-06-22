@@ -1,14 +1,14 @@
         program Ne
 C parameter
-C a             xyz array of all molecules
+C coords        xyz array of all molecules
 C trajec        xyz array of one molecule
-C boxlength     box lower and upper limit
-C rvdw          probe radius to measure volume 
-C lee           end-to-end distance
-C lpp           primitive path length
-C griddel       1-D distance between adjcent grid points
+C boxlength     lower and upper limits of the sim box
+C rvdw          probe radius used to measure the volume of a confining tube
+C lee           end-to-end distance of a chain
+C lpp           contour length of a primitive path
+C griddel       grid size (distance between adjcent grid points)
 C vol           tube volume
-C chain         index for chain  
+C chain         chain index
 C numpts        total number of grid points
 C grid          number of grid points along each axis
 C s's           characters to read lines in dump file
@@ -16,10 +16,10 @@ C start         starting point in time
 C finish        finishing point in time
 
         include 'mpif.h'
-        include 'inc.default'
-        include 'inc.options'
+        include 'var.default'
+        include 'var.options'
 
-        real a(num_atoms,6)
+        real coords(num_atoms,6)
         real trajec(num_atoms_per_mol,3)
         real pts(max_rows,3)
         real boxlength(3,2)
@@ -65,16 +65,16 @@ C for mpi
         read(1,*) s9
         do j = 1, num_atoms, 1
            read(1,*) x1, x2, x3, x4, x5, x6
-           a(j,1)=x1
-           a(j,2)=x2
-           a(j,3)=x3
-           a(j,4)=x4
-           a(j,5)=x5
-           a(j,6)=x6
+           coords(j,1)=x1
+           coords(j,2)=x2
+           coords(j,3)=x3
+           coords(j,4)=x4
+           coords(j,5)=x5
+           coords(j,6)=x6
         enddo
         close(1)
 
-        call sortrow(a,num_atoms) ! sort rows with the first column ascending
+        call sortrow(coords,num_atoms) ! sort rows with the first column ascending
 
         call MPI_Comm_Rank(MPI_Comm_World,my_id,ierr)
         call MPI_Comm_Size(MPI_Comm_World,num_procs,ierr)
@@ -85,7 +85,8 @@ C for mpi
         close(2)
 
         do i = chain, chain, 1
-           trajec=a(1+num_atoms_per_mol*(i-1):num_atoms_per_mol*i,4:6)
+           trajec=coords(1+num_atoms_per_mol*(i-1):num_atoms_per_mol*i,
+     &     4:6)
            call pbc(trajec,num_atoms_per_mol,boxlength) ! coords beyond pbc
            call gridn(trajec,num_atoms_per_mol,griddel,grid,vol)
            numpts=grid(1)*grid(2)*grid(3)
@@ -112,13 +113,11 @@ C for mpi
            enddo
 
            if (my_id .eq. root_process) then
-C              write (*,*) 'pts num by procs', my_id, '=', num_rows
 
               total_num=0
               partial_num=tube(trajec,num_atoms_per_mol,rvdw,num_rows,
      &        pts(1:num_rows,:))
               total_num=total_num+partial_num
-C              write (*,*) 'partial num (procs', my_id, ')=', partial_num
 
               do an_id = 1, num_procs-1
                  call MPI_Recv(partial_num,1,MPI_Int,MPI_Any_Source,
@@ -132,11 +131,8 @@ C              write (*,*) 'partial num (procs', my_id, ')=', partial_num
               write (*,*) '* lee=', lee
               write (*,*) '* lpp=', lpp
            else
-C              write (*,*) 'pts num by procs', my_id, '=', num_rows
               partial_num=tube(trajec,num_atoms_per_mol,rvdw,num_rows,
      &        pts(1:num_rows,:))
-              
-C              write (*,*) 'partial num (procs', my_id, ')=', partial_num
 
               call MPI_Send(partial_num,1,MPI_Int,root_process,
      &        return_data_tag,MPI_Comm_World,ierr)
@@ -157,7 +153,7 @@ C -----------------------------------------------------------
 
         subroutine gridn(xyz,num_atoms_per_mol,griddel,grid,vol)
 C xyz           xyz array of a molecule
-C griddel       1-D distance between adjcent grid points
+C griddel       grid size
 C ul, ll        upper and lower limits along each axis
 C lref          reference position 
 C ltemp         temporary position
@@ -202,11 +198,12 @@ C grid          number of grid points along each axis
         end
 
 C -----------------------------------------------------------
+C generates a grid
 
         subroutine gridgen(xyz,num_atoms_per_mol,griddel,grid,start_row,
      &  num_rows,pts)
 C xyz           xyz array of a molecule
-C griddel       1-D distance between adjcent grid points
+C griddel       grid size
 C num_rows      number of grid points per each processor
 C pts           xyz array of all grid points
 C ul, ll        upper and lower limits along each axis
@@ -281,6 +278,7 @@ C i, j, k_ind's s
         end
 
 C -----------------------------------------------------------
+C counts the number of grid points falling withing the confining tube
 
         real function tube(xyz,num_atoms_per_mol,rvdw,numpts,pts)
 C xyz           xyz array of a molecule
@@ -329,6 +327,7 @@ C idx           index fo while loop
         end
 
 C -----------------------------------------------------------
+C sorts rows of an array
 
         subroutine sortrow(A,num_rows)
         real A(num_rows,6), buf(6)
@@ -345,6 +344,7 @@ C -----------------------------------------------------------
         end
 
 C -----------------------------------------------------------
+C relocates an atom beyond boundaries
 
         subroutine pbc(xyz,num_atoms_per_mol,boxlength)
         real xyz(num_atoms_per_mol,3)
@@ -381,6 +381,7 @@ C -----------------------------------------------------------
         end
 
 C -----------------------------------------------------------
+C calculates the length of a vector made by two points
 
         real function distcal(a)
         real a(3)
